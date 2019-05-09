@@ -1,0 +1,196 @@
+{
+    "version": "1.0.0",
+    "title": "kill-go-router",
+    "description": "Kill a CF Go-router and check that traffic for CF is still running",
+    "tags": [],
+    "secrets": {
+        "cf": {
+            "cf_api_url": {
+                "type": "env",
+                "key": "CF_API_URL"
+            }
+        },
+        "aws": {
+            "aws_access_key_id": {
+                "type": "env",
+                "key": "AWS_ACCESS_KEY_ID"
+            },
+            "aws_secret_access_key": {
+                "type": "env",
+                "key": "AWS_SECRET_ACCESS_KEY"
+            }
+        }
+    },
+    "configuration": {
+        "aws_region": {
+            "type": "env",
+            "key": "AWS_REGION"
+        },
+        "aws_assume_role_arn": {
+            "type": "env",
+            "key": "AWS_ASSUME_ROLE_ARN"
+        }
+    },
+    "steady-state-hypothesis": {
+        "title": "CF is running",
+        "probes": [
+            {
+                "type": "probe",
+                "name": "is API available",
+                "tolerance": 200,
+                "provider": {
+                    "type": "http",
+                    "timeout": 3,
+                    "secrets": [
+                        "cf"
+                    ],
+                    "url": "${cf_api_url}"
+                }
+            }
+        ]
+    },
+    "method": [
+        {
+            "name": "terminate-instance",
+            "type": "action",
+            "provider": {
+                "module": "chaosaws.ec2.actions",
+                "type": "python",
+                "func": "terminate_instance",
+                "secrets": [
+                    "aws"
+                ],
+                "arguments": {
+                    "filters": [
+                        {
+                            "Name": "tag:deployment",
+                            "Values": [
+                                "cf"
+                            ]
+                        },
+                        {
+                            "Name": "tag:job",
+                            "Values": [
+                                "router"
+                            ]
+                        }
+                    ]
+                }
+            },
+            "pauses": {
+                "after": 10
+            }
+        },
+        {
+            "type": "probe",
+            "name": "is API available 1",
+            "tolerance": 200,
+            "provider": {
+                "type": "http",
+                "timeout": 3,
+                "secrets": [
+                    "cf"
+                ],
+                "url": "${cf_api_url}"
+            },
+            "pauses": {
+                "after": 10
+            }
+        },
+        {
+            "type": "probe",
+            "name": "is API available 2",
+            "tolerance": 200,
+            "provider": {
+                "type": "http",
+                "timeout": 3,
+                "secrets": [
+                    "cf"
+                ],
+                "url": "${cf_api_url}"
+            },
+            "pauses": {
+                "after": 10
+            }
+        },
+        {
+            "type": "probe",
+            "name": "is API available 3",
+            "tolerance": 200,
+            "provider": {
+                "type": "http",
+                "timeout": 3,
+                "secrets": [
+                    "cf"
+                ],
+                "url": "${cf_api_url}"
+            },
+            "pauses": {
+                "after": 10
+            }
+        },
+        {
+            "type": "probe",
+            "name": "is API available 4",
+            "tolerance": 200,
+            "provider": {
+                "type": "http",
+                "timeout": 3,
+                "secrets": [
+                    "cf"
+                ],
+                "url": "${cf_api_url}"
+            },
+            "pauses": {
+                "after": 10
+            }
+        },
+        {
+            "type": "probe",
+            "name": "is API available 5",
+            "tolerance": 200,
+            "provider": {
+                "type": "http",
+                "timeout": 3,
+                "secrets": [
+                    "cf"
+                ],
+                "url": "${cf_api_url}"
+            },
+            "pauses": {
+                "after": 10
+            }
+        },
+        {
+            "type": "probe",
+            "name": "is API available 6",
+            "tolerance": 200,
+            "provider": {
+                "type": "http",
+                "timeout": 3,
+                "secrets": [
+                    "cf"
+                ],
+                "url": "${cf_api_url}"
+            },
+            "pauses": {
+                "after": 60
+            }
+        },
+        {
+            "type": "probe",
+            "name": "is API available 7",
+            "tolerance": 200,
+            "provider": {
+                "type": "http",
+                "timeout": 3,
+                "secrets": [
+                    "cf"
+                ],
+                "url": "${cf_api_url}"
+            }
+        }
+
+    ],
+    "rollbacks": []
+}
