@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
-    "title": "kill CF go-router",
-    "description": "Kill a CF Go-router and check that traffic for CF is still running",
+    "title": "kill an AWS AZ",
+    "description": "Kill all instances in an Availability Zone ap-southeast-2a and check if CF is still available",
     "tags": [],
     "secrets": {
         "cf": {
@@ -51,12 +51,12 @@
     },
     "method": [
         {
-            "name": "terminate a CF go-router instance",
+            "name": "terminate all instances in ap-southeast-2a AZ",
             "type": "action",
             "provider": {
                 "module": "chaosaws.ec2.actions",
                 "type": "python",
-                "func": "terminate_instance",
+                "func": "terminate_instances",
                 "secrets": [
                     "aws"
                 ],
@@ -67,14 +67,9 @@
                             "Values": [
                                 "cf"
                             ]
-                        },
-                        {
-                            "Name": "tag:job",
-                            "Values": [
-                                "router"
-                            ]
                         }
-                    ]
+                    ],
+                    "az": "ap-southeast-2a"
                 }
             },
             "pauses": {
@@ -144,69 +139,7 @@
             "pauses": {
                 "after": 10
             }
-        },
-        {
-            "type": "probe",
-            "name": "is API available 5",
-            "tolerance": 200,
-            "provider": {
-                "type": "http",
-                "timeout": 3,
-                "secrets": [
-                    "cf"
-                ],
-                "url": "${cf_api_url}"
-            },
-            "pauses": {
-                "after": 10
-            }
-        },
-        {
-            "type": "probe",
-            "name": "is API available 6",
-            "tolerance": 200,
-            "provider": {
-                "type": "http",
-                "timeout": 3,
-                "secrets": [
-                    "cf"
-                ],
-                "url": "${cf_api_url}"
-            },
-            "pauses": {
-                "after": 60
-            }
-        },
-        {
-            "type": "probe",
-            "name": "is API available 7",
-            "tolerance": 200,
-            "provider": {
-                "type": "http",
-                "timeout": 3,
-                "secrets": [
-                    "cf"
-                ],
-                "url": "${cf_api_url}"
-            },
-            "pauses": {
-                "after": 180
-            }
-        },
-        {
-            "type": "probe",
-            "name": "is API available 8",
-            "tolerance": 200,
-            "provider": {
-                "type": "http",
-                "timeout": 3,
-                "secrets": [
-                    "cf"
-                ],
-                "url": "${cf_api_url}"
-            }
         }
-
     ],
     "rollbacks": []
 }

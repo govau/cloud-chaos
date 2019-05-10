@@ -1,7 +1,7 @@
 {
     "version": "1.0.0",
-    "title": "kill CF go-router",
-    "description": "Kill a CF Go-router and check that traffic for CF is still running",
+    "title": "kill a CF instance",
+    "description": "Kill a CF instance and check that CF API is still available",
     "tags": [],
     "secrets": {
         "cf": {
@@ -51,7 +51,7 @@
     },
     "method": [
         {
-            "name": "terminate a CF go-router instance",
+            "name": "terminate a CF instance",
             "type": "action",
             "provider": {
                 "module": "chaosaws.ec2.actions",
@@ -66,12 +66,6 @@
                             "Name": "tag:deployment",
                             "Values": [
                                 "cf"
-                            ]
-                        },
-                        {
-                            "Name": "tag:job",
-                            "Values": [
-                                "router"
                             ]
                         }
                     ]
