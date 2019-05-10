@@ -188,6 +188,22 @@
                     "cf"
                 ],
                 "url": "${cf_api_url}"
+            },
+            "pauses": {
+                "after": 180
+            }
+        },
+        {
+            "type": "probe",
+            "name": "is API available 8",
+            "tolerance": 200,
+            "provider": {
+                "type": "http",
+                "timeout": 3,
+                "secrets": [
+                    "cf"
+                ],
+                "url": "${cf_api_url}"
             }
         }
 
