@@ -14,4 +14,7 @@ if [ -z "${AWS_ACCESS_KEY_ID:-}" ] || [ -z "${AWS_SECRET_ACCESS_KEY:-}" ] || [ -
   exit 1
 fi
 
+# set required locale
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
 chaos run cloud-chaos.git/experiments/${EXPERIMENT}.json
